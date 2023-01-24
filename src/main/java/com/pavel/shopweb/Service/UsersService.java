@@ -15,6 +15,10 @@ public interface UsersService {
 
     UsersDto ActivateUser(String activationCode);
 
+    String GenerateQrCode(String secret);
+
+    Boolean VerifyTwoAuth(String username, String code);
+
     UsersDto ResetPassword(String email);
 
     UsersDto ChangePassword(String passToken, UsersEntity usersEntity);
