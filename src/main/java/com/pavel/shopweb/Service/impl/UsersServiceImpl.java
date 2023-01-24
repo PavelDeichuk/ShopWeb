@@ -4,6 +4,7 @@ import com.pavel.shopweb.Dto.UsersDto;
 import com.pavel.shopweb.Entity.UsersEntity;
 import com.pavel.shopweb.Mapper.UsersMapper;
 import com.pavel.shopweb.Repository.UsersRepository;
+import com.pavel.shopweb.Service.TotpService;
 import com.pavel.shopweb.Service.UsersService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -22,8 +23,11 @@ public class UsersServiceImpl implements UsersService {
 
     private final UsersRepository usersRepository;
 
-    public UsersServiceImpl(UsersRepository usersRepository) {
+    private final TotpService totpService;
+
+    public UsersServiceImpl(UsersRepository usersRepository, TotpService totpService) {
         this.usersRepository = usersRepository;
+        this.totpService = totpService;
     }
 
     @Override
@@ -70,7 +74,7 @@ public class UsersServiceImpl implements UsersService {
                 throw new RuntimeException(errors.getObjectName() + " " + errors.getDefaultMessage());
             }
         }
-        UsersEntity users = usersRepository
+        usersRepository
                 .save(
                         UsersEntity
                                 .builder()
@@ -95,6 +99,22 @@ public class UsersServiceImpl implements UsersService {
         users.setActivationToken(null);
         usersRepository.save(users);
         return UsersMapper.INSTANCE.USERS_DTO(users);
+    }
+
+    @Override
+    public String GenerateQrCode(String secret) {
+        return totpService.getUriForImage(secret);
+    }
+
+    @Override
+    public Boolean VerifyTwoAuth(String username, String code) {
+        UsersEntity users = usersRepository
+                .findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("Not found username"));
+        if(!totpService.verifyCode(code, users.getSecret())) {
+            throw new RuntimeException("Code is incorrect");
+        }
+        return true;
     }
 
     @Override
