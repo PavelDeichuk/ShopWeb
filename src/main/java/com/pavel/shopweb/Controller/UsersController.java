@@ -23,6 +23,8 @@ public class UsersController {
 
     private static final String CHANGE_PASSWORD = "/change";
 
+    private static final String USER_QR_CODE = "/qr";
+
     private final UsersService usersService;
 
     public UsersController(UsersService usersService) {
@@ -49,6 +51,11 @@ public class UsersController {
     @RequestMapping(value = ACTIVATION, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public UsersDto ActivateAccountUser(@RequestParam(value = "token", required = true) String activation_code){
         return usersService.ActivateUser(activation_code);
+    }
+
+    @RequestMapping(value = USER_QR_CODE,method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public String GenerateQrCode(@RequestParam(value = "secret", required = true) String secret){
+        return usersService.GenerateQrCode(secret);
     }
 
     @RequestMapping(value = RESET, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
