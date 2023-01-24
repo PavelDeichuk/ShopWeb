@@ -62,7 +62,7 @@ public class UsersServiceImplTest {
 
     @Test
     public void CreateUserTest() {
-       UsersEntity users = UsersEntity.builder().id(1L).build();
+       UsersEntity users = UsersEntity.builder().id(1L).mfa(false).build();
        when(usersRepository.save(users)).thenReturn(users);
        UsersDto usersDto = usersServiceImpl.CreateUser(users, bindingResult);
        assertEquals(usersDto.getId(), users.getId());
