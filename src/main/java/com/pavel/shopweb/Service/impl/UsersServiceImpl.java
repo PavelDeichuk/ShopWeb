@@ -55,6 +55,7 @@ public class UsersServiceImpl implements UsersService {
 
     @Override
     public UsersDto CreateUser(UsersEntity usersEntity, BindingResult bindingResult) {
+        usersEntity.setRole("QUEST");
         usersRepository
                 .findByUsername(usersEntity.getUsername())
                 .ifPresent(users -> {
@@ -74,17 +75,10 @@ public class UsersServiceImpl implements UsersService {
                 throw new RuntimeException(errors.getObjectName() + " " + errors.getDefaultMessage());
             }
         }
-        usersRepository
-                .save(
-                        UsersEntity
-                                .builder()
-                                .username(usersEntity.getUsername())
-                                .password(usersEntity.getPassword())
-                                .email(usersEntity.getEmail())
-                                .mfa(usersEntity.getMfa())
-                                .role("QUEST")
-                                .build()
-                );
+        if(usersEntity.getMfa()){
+            usersEntity.setSecret(totpService.generateSecret());
+        }
+        usersRepository.saveAndFlush(usersEntity);
         return UsersMapper.INSTANCE.USERS_DTO(usersEntity);
     }
 
