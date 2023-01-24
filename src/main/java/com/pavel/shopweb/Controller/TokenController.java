@@ -37,7 +37,8 @@ public class TokenController {
     }
 
     @RequestMapping(TOKEN)
-    public ResponseEntity<?> GetToken(@RequestBody JwtRequest jwtRequest, @RequestParam(value = "code", required = false, defaultValue = "0") String code) {
+    public ResponseEntity<?> GetToken(@RequestBody JwtRequest jwtRequest,
+                                      @RequestParam(value = "code", required = false, defaultValue = "0") String code) {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         final UserDetails userDetails = userSecurityService.loadUserByUsername(jwtRequest.getUsername());
