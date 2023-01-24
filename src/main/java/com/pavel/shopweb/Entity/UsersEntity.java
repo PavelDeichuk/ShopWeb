@@ -66,6 +66,9 @@ public class UsersEntity {
 
     private String secret;
 
+    @OneToOne(mappedBy = "usersEntity", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private UsersDetailEntity usersDetailEntity;
+
     @CreationTimestamp
     private LocalDateTime createAt;
 
