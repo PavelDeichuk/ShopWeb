@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -74,6 +75,18 @@ class UsersControllerTest {
                 .perform(get("/api/v1/users/activate")
                         .param("token", "test")
                         .content(new ObjectMapper().writeValueAsBytes(usersDto))
+                        .contentType("application/json"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void GenerateQrCode_Success200() throws Exception {
+        String qrCode = "test";
+        BDDMockito.given(usersService.GenerateQrCode(anyString())).willReturn(qrCode);
+        mockMvc
+                .perform(get("/api/v1/users/qr")
+                        .param("secret", "test")
+                        .content(new ObjectMapper().writeValueAsBytes(qrCode))
                         .contentType("application/json"))
                 .andExpect(status().isOk());
     }
