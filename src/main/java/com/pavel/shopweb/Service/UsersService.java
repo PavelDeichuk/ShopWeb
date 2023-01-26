@@ -3,7 +3,9 @@ package com.pavel.shopweb.Service;
 import com.pavel.shopweb.Dto.UsersDto;
 import com.pavel.shopweb.Entity.UsersEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface UsersService {
@@ -12,6 +14,8 @@ public interface UsersService {
     UsersDto GetUserById(Long user_id);
 
     UsersDto CreateUser(UsersEntity usersEntity, BindingResult bindingResult);
+
+    boolean CreateImageUsers(Long user_id, MultipartFile multipartFile) throws IOException;
 
     UsersDto ActivateUser(String activationCode);
 
