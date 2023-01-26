@@ -1,0 +1,2 @@
+ALTER TABLE users ADD COLUMN balance INT;
+ALTER TABLE users ADD COLUMN image_id INT REFERENCES image(id);
