@@ -17,6 +17,8 @@ public interface UsersService {
 
     boolean CreateImageUsers(Long user_id, MultipartFile multipartFile) throws IOException;
 
+    boolean EditImageUsers(Long users_id, Long image_id, MultipartFile multipartFile) throws Exception;
+
     UsersDto ActivateUser(String activationCode);
 
     String GenerateQrCode(String secret);
