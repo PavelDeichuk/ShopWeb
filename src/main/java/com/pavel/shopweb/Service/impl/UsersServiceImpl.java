@@ -1,8 +1,12 @@
 package com.pavel.shopweb.Service.impl;
 
 import com.pavel.shopweb.Dto.UsersDto;
+import com.pavel.shopweb.Entity.ImageEntity;
+import com.pavel.shopweb.Entity.UsersDetailEntity;
 import com.pavel.shopweb.Entity.UsersEntity;
+import com.pavel.shopweb.Exception.NotFoundException;
 import com.pavel.shopweb.Mapper.UsersMapper;
+import com.pavel.shopweb.Repository.ImageRepository;
 import com.pavel.shopweb.Repository.UsersRepository;
 import com.pavel.shopweb.Service.TotpService;
 import com.pavel.shopweb.Service.UsersService;
@@ -12,7 +16,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -55,6 +61,9 @@ public class UsersServiceImpl implements UsersService {
 
     @Override
     public UsersDto CreateUser(UsersEntity usersEntity, BindingResult bindingResult) {
+        UsersDetailEntity usersDetailEntity = new UsersDetailEntity();
+        usersDetailEntity.setUsersEntity(usersEntity);
+        usersEntity.setUsersDetailEntity(usersDetailEntity);
         usersEntity.setRole("QUEST");
         usersRepository
                 .findByUsername(usersEntity.getUsername())
@@ -75,11 +84,27 @@ public class UsersServiceImpl implements UsersService {
                 throw new RuntimeException(errors.getObjectName() + " " + errors.getDefaultMessage());
             }
         }
-        if(usersEntity.getMfa()){
+        if(usersEntity.isMfa()){
             usersEntity.setSecret(totpService.generateSecret());
         }
-        usersRepository.saveAndFlush(usersEntity);
+        usersRepository.save(usersEntity);
         return UsersMapper.INSTANCE.USERS_DTO(usersEntity);
+    }
+
+    @Override
+    public boolean CreateImageUsers(Long user_id, MultipartFile multipartFile) throws IOException {
+        UsersEntity users = usersRepository
+                .findById(user_id)
+                .orElseThrow(() -> {
+                    throw new NotFoundException("Not found for user id");
+                });
+        ImageEntity image = new ImageEntity();
+        image.setImage(multipartFile.getBytes());
+        image.setName(multipartFile.getName());
+        image.setSize(multipartFile.getSize());
+        users.setImageEntity(image);
+        usersRepository.save(users);
+        return true;
     }
 
     @Override
@@ -148,7 +173,7 @@ public class UsersServiceImpl implements UsersService {
                     throw new RuntimeException("Not found for user id!");
                 });
         users.setUsername(usersEntity.getUsername());
-        users.setMfa(usersEntity.getMfa());
+        users.setMfa(usersEntity.isMfa());
         usersRepository.save(users);
         return UsersMapper.INSTANCE.USERS_DTO(users);
     }
