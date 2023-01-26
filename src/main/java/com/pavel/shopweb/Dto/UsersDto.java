@@ -22,5 +22,7 @@ public class UsersDto {
 
     private Boolean mailing;
 
+    private Long balance;
+
     private LocalDateTime createAt;
 }
