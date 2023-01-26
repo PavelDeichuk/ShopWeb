@@ -43,7 +43,7 @@ public class TokenController {
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         final UserDetails userDetails = userSecurityService.loadUserByUsername(jwtRequest.getUsername());
         UsersEntity users = usersRepository.findByUsername(jwtRequest.getUsername()).orElseThrow();
-        if(users.getMfa()){
+        if(users.isMfa()){
             usersService.VerifyTwoAuth(jwtRequest.getUsername(), code);
         }
         final String token = jwtUtil.generateToken(userDetails);
