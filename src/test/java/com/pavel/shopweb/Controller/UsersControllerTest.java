@@ -11,9 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +36,9 @@ class UsersControllerTest {
 
     @MockBean
     private UsersService usersService;
+
+    @MockBean
+    private MultipartFile multipartFile;
 
     @Test
     void getAllUsers() throws Exception{
@@ -88,6 +93,29 @@ class UsersControllerTest {
                         .param("secret", "test")
                         .content(new ObjectMapper().writeValueAsBytes(qrCode))
                         .contentType("application/json"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void CreateImageUserTest() throws Exception {
+        byte[] imageByte = new byte[0];
+        MockMultipartFile mockMultipartFile = new MockMultipartFile("test", imageByte);
+        BDDMockito.given(usersService.CreateImageUsers(1L, multipartFile)).willReturn(true);
+        mockMvc
+                .perform(multipart("/api/v1/users/{users_id}/image", 1L)
+                        .file(mockMultipartFile)
+                        .content(new ObjectMapper().writeValueAsBytes(true)))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void EditImageUserTest() throws Exception {
+        byte[] imageByte = new byte[0];
+        MockMultipartFile mockMultipartFile = new MockMultipartFile("test", imageByte);
+        BDDMockito.given(usersService.EditImageUsers(1L, 1L, multipartFile)).willReturn(true);
+        mockMvc
+                .perform(put("/api/v1/users/{users_id}/image/{image_id}", 1L, 1L)
+                        .content(new ObjectMapper().writeValueAsBytes(true)))
                 .andExpect(status().isOk());
     }
 
