@@ -56,8 +56,4 @@ class UsersDetailServiceImplTest {
         verify(usersRepository).findById(1L);
         verify(usersDetailRepository).findByUsersEntity(users);
     }
-
-    @Test
-    void deleteUserDetailById() {
-    }
 }
