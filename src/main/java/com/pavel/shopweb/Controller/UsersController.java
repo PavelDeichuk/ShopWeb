@@ -4,11 +4,14 @@ package com.pavel.shopweb.Controller;
 import com.pavel.shopweb.Dto.UsersDto;
 import com.pavel.shopweb.Entity.UsersEntity;
 import com.pavel.shopweb.Service.UsersService;
+import com.pavel.shopweb.kafka.Producer;
 import jakarta.validation.Valid;
 import org.springframework.http.MediaType;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -23,12 +26,17 @@ public class UsersController {
 
     private static final String CHANGE_PASSWORD = "/change";
 
+    private static final String IMAGE = "/{users_id}/image";
+
     private static final String USER_QR_CODE = "/qr";
 
     private final UsersService usersService;
 
-    public UsersController(UsersService usersService) {
+    private final Producer producer;
+
+    public UsersController(UsersService usersService, Producer producer) {
         this.usersService = usersService;
+        this.producer = producer;
     }
 
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -45,6 +53,7 @@ public class UsersController {
     @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public UsersDto CreateUser(@RequestBody @Valid UsersEntity usersEntity,
                                BindingResult bindingResult){
+        producer.SendMessage("shop1", "test");
         return usersService.CreateUser(usersEntity, bindingResult);
     }
 
@@ -56,6 +65,12 @@ public class UsersController {
     @RequestMapping(value = USER_QR_CODE,method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public String GenerateQrCode(@RequestParam(value = "secret", required = true) String secret){
         return usersService.GenerateQrCode(secret);
+    }
+
+    @RequestMapping(value = IMAGE, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public boolean ImageCreateUser(@PathVariable Long users_id,
+                                   @RequestParam("file")MultipartFile multipartFile) throws IOException {
+        return usersService.CreateImageUsers(users_id, multipartFile);
     }
 
     @RequestMapping(value = RESET, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
