@@ -11,3 +11,9 @@ databaseChangeLog:
       changes:
         - sqlFile:
             path: "db/changelog/v.1.0/1.0-users-detail-table.sql"
+  - changeSet:
+      id: 2
+      author: pavel
+      changes:
+        - sqlFile:
+            path: "db/changelog/v.1.0/1.0-image-table.sql"
