@@ -60,14 +60,20 @@ public class UsersEntity {
 
     private String resetToken;
 
-    private Boolean mfa;
+    private boolean mfa;
 
-    private Boolean mailing;
+    private boolean mailing;
 
     private String secret;
 
+    private Long balance;
+
     @OneToOne(mappedBy = "usersEntity", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private UsersDetailEntity usersDetailEntity;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "image_id")
+    private ImageEntity imageEntity;
 
     @CreationTimestamp
     private LocalDateTime createAt;
