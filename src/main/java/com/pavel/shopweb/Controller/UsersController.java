@@ -28,6 +28,8 @@ public class UsersController {
 
     private static final String IMAGE = "/{users_id}/image";
 
+    private static final String IMAGE_EDIT = "/{users_id}/image/{image_id}";
+
     private static final String USER_QR_CODE = "/qr";
 
     private final UsersService usersService;
@@ -69,8 +71,15 @@ public class UsersController {
 
     @RequestMapping(value = IMAGE, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public boolean ImageCreateUser(@PathVariable Long users_id,
-                                   @RequestParam("file")MultipartFile multipartFile) throws IOException {
+                                   @RequestParam(value = "file", required = false)MultipartFile multipartFile) throws IOException {
         return usersService.CreateImageUsers(users_id, multipartFile);
+    }
+
+    @RequestMapping(value = IMAGE_EDIT, method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+    public boolean ImageEditUser(@PathVariable Long users_id,
+                                 @PathVariable Long image_id,
+                                 @RequestParam(value = "file", required = false) MultipartFile multipartFile) throws Exception {
+        return usersService.EditImageUsers(users_id, image_id, multipartFile);
     }
 
     @RequestMapping(value = RESET, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
