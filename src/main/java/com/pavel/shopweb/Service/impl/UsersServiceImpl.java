@@ -4,6 +4,7 @@ import com.pavel.shopweb.Dto.UsersDto;
 import com.pavel.shopweb.Entity.ImageEntity;
 import com.pavel.shopweb.Entity.UsersDetailEntity;
 import com.pavel.shopweb.Entity.UsersEntity;
+import com.pavel.shopweb.Exception.BadRequestException;
 import com.pavel.shopweb.Exception.NotFoundException;
 import com.pavel.shopweb.Mapper.UsersMapper;
 import com.pavel.shopweb.Repository.ImageRepository;
@@ -31,9 +32,12 @@ public class UsersServiceImpl implements UsersService {
 
     private final TotpService totpService;
 
-    public UsersServiceImpl(UsersRepository usersRepository, TotpService totpService) {
+    private final ImageRepository imageRepository;
+
+    public UsersServiceImpl(UsersRepository usersRepository, TotpService totpService, ImageRepository imageRepository) {
         this.usersRepository = usersRepository;
         this.totpService = totpService;
+        this.imageRepository = imageRepository;
     }
 
     @Override
@@ -65,6 +69,7 @@ public class UsersServiceImpl implements UsersService {
         usersDetailEntity.setUsersEntity(usersEntity);
         usersEntity.setUsersDetailEntity(usersDetailEntity);
         usersEntity.setRole("QUEST");
+        usersEntity.setBalance(0L);
         usersRepository
                 .findByUsername(usersEntity.getUsername())
                 .ifPresent(users -> {
@@ -102,6 +107,32 @@ public class UsersServiceImpl implements UsersService {
         image.setImage(multipartFile.getBytes());
         image.setName(multipartFile.getName());
         image.setSize(multipartFile.getSize());
+        users.setImageEntity(image);
+        usersRepository.save(users);
+        return true;
+    }
+
+    @Override
+    public boolean EditImageUsers(Long users_id, Long image_id, MultipartFile multipartFile) throws Exception {
+        UsersEntity users = usersRepository
+                .findById(users_id)
+                .orElseThrow(() -> {
+                    throw new NotFoundException("Not found for user id!");
+                });
+        ImageEntity image = imageRepository
+                .findById(image_id)
+                .orElseThrow(() -> {
+                    throw new NotFoundException("Not found for image id!");
+                });
+        imageRepository
+                .findByImage(image.getImage())
+                .ifPresent(imageByte -> {
+                    throw new BadRequestException("Image is equals to bytes, please post post another image");
+                });
+        image.setImage(multipartFile.getBytes());
+        image.setSize(multipartFile.getSize());
+        image.setName(multipartFile.getOriginalFilename());
+        image.setUsersEntity(users);
         users.setImageEntity(image);
         usersRepository.save(users);
         return true;
