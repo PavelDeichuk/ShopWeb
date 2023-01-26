@@ -10,4 +10,6 @@ public interface ImageRepository extends JpaRepository<ImageEntity,Long> {
     @Query("SELECT i FROM ImageEntity i WHERE i.name = ?1")
     Optional<ImageEntity> findByName(String name);
 
+    @Query("SELECT i FROM ImageEntity i WHERE i.image = ?1")
+    Optional<ImageEntity> findByImage(byte[] image);
 }
