@@ -30,4 +30,7 @@ public class ImageEntity {
 
     @OneToOne(mappedBy = "imageEntity", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private UsersEntity usersEntity;
+
+    @OneToOne(mappedBy = "imageEntity", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private ProductEntity productEntity;
 }
