@@ -111,7 +111,6 @@ class UsersControllerTest {
     @Test
     void EditImageUserTest() throws Exception {
         byte[] imageByte = new byte[0];
-        MockMultipartFile mockMultipartFile = new MockMultipartFile("test", imageByte);
         BDDMockito.given(usersService.EditImageUsers(1L, 1L, multipartFile)).willReturn(true);
         mockMvc
                 .perform(put("/api/v1/users/{users_id}/image/{image_id}", 1L, 1L)
