@@ -9,6 +9,7 @@ import com.pavel.shopweb.Exception.NotFoundException;
 import com.pavel.shopweb.Mapper.UsersMapper;
 import com.pavel.shopweb.Repository.ImageRepository;
 import com.pavel.shopweb.Repository.UsersRepository;
+import com.pavel.shopweb.Service.EmailService;
 import com.pavel.shopweb.Service.TotpService;
 import com.pavel.shopweb.Service.UsersService;
 import org.springframework.data.domain.Page;
@@ -34,10 +35,13 @@ public class UsersServiceImpl implements UsersService {
 
     private final ImageRepository imageRepository;
 
-    public UsersServiceImpl(UsersRepository usersRepository, TotpService totpService, ImageRepository imageRepository) {
+    private final EmailService emailService;
+
+    public UsersServiceImpl(UsersRepository usersRepository, TotpService totpService, ImageRepository imageRepository, EmailService emailService) {
         this.usersRepository = usersRepository;
         this.totpService = totpService;
         this.imageRepository = imageRepository;
+        this.emailService = emailService;
     }
 
     @Override
@@ -69,6 +73,7 @@ public class UsersServiceImpl implements UsersService {
         usersDetailEntity.setUsersEntity(usersEntity);
         usersEntity.setUsersDetailEntity(usersDetailEntity);
         usersEntity.setRole("QUEST");
+        usersEntity.setActivationToken(UUID.randomUUID().toString());
         usersEntity.setBalance(0L);
         usersRepository
                 .findByUsername(usersEntity.getUsername())
@@ -92,6 +97,7 @@ public class UsersServiceImpl implements UsersService {
         if(usersEntity.isMfa()){
             usersEntity.setSecret(totpService.generateSecret());
         }
+        emailService.SendMessage(usersEntity.getEmail(), "ActivateUser", usersEntity.getActivationToken());
         usersRepository.save(usersEntity);
         return UsersMapper.INSTANCE.USERS_DTO(usersEntity);
     }
