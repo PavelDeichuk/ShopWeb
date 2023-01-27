@@ -11,10 +11,12 @@ import com.pavel.shopweb.Repository.UsersRepository;
 
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
 
+import com.pavel.shopweb.Service.EmailService;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
@@ -35,6 +37,9 @@ public class UsersServiceImplTest {
     @Mock
     private UsersRepository usersRepository;
 
+    @Mock
+    private EmailService emailService;
+
     @InjectMocks
     private UsersServiceImpl usersServiceImpl;
 
@@ -43,7 +48,7 @@ public class UsersServiceImplTest {
 
     @Test
     public void GetAllUsersTest() {
-        ArrayList<UsersEntity> usersEntityList = new ArrayList<>();
+        List<UsersEntity> usersEntityList = new ArrayList<>();
         usersEntityList.add(null);
         PageImpl<UsersEntity> pageImpl = new PageImpl<>(usersEntityList);
         when(usersRepository.findAll((Pageable) any())).thenReturn(pageImpl);
@@ -64,6 +69,7 @@ public class UsersServiceImplTest {
     public void CreateUserTest() {
        UsersEntity users = UsersEntity.builder().id(1L).mfa(false).build();
        when(usersRepository.save(users)).thenReturn(users);
+       when(emailService.SendMessage("test","test","test")).thenReturn(false);
        UsersDto usersDto = usersServiceImpl.CreateUser(users, bindingResult);
        assertEquals(usersDto.getId(), users.getId());
     }
