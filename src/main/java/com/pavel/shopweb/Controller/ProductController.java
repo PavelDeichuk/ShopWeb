@@ -19,6 +19,8 @@ public class ProductController {
 
     private static final String PRODUCT_IMAGE = "/{product_id}/image";
 
+    private static final String CATEGORY_NAME = "/category";
+
     public ProductController(ProductService productService) {
         this.productService = productService;
     }
@@ -32,6 +34,11 @@ public class ProductController {
     @RequestMapping(value = PRODUCT_ID, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ProductDto GetProductById(@PathVariable Long product_id){
         return productService.GetProductById(product_id);
+    }
+
+    @RequestMapping(value = CATEGORY_NAME, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<ProductDto> GetCategoryByName(@RequestParam(value = "name", required = true)String category){
+        return productService.GetProductByCategoryName(category);
     }
 
     @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
