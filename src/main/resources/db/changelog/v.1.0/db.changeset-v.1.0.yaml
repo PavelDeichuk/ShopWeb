@@ -23,3 +23,15 @@ databaseChangeLog:
       changes:
         - sqlFile:
             path: "db/changelog/v.1.0/1.0-product-table.sql"
+  - changeSet:
+      id: 4
+      author: pavel
+      changes:
+        - sqlFile:
+            path: "db/changelog/v.1.0/1.0-category-table.sql"
+  - changeSet:
+      id: 5
+      author: pavel
+      changes:
+        - sqlFile:
+            path: "db/changelog/v.1.0/1.0-product-category-table.sql"
