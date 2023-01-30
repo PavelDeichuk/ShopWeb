@@ -12,6 +12,8 @@ public interface ProductService {
 
     ProductDto GetProductById(Long product_id);
 
+    List<ProductDto> GetProductByCategoryName(String category_name);
+
     ProductDto CreateProduct(ProductEntity productEntity);
 
     ProductDto CreateImageProduct(Long product_id, MultipartFile multipartFile) throws IOException;
