@@ -1,11 +1,13 @@
 package com.pavel.shopweb.Service.impl;
 
 import com.pavel.shopweb.Dto.ProductDto;
+import com.pavel.shopweb.Entity.CategoryEntity;
 import com.pavel.shopweb.Entity.ImageEntity;
 import com.pavel.shopweb.Entity.ProductEntity;
 import com.pavel.shopweb.Exception.BadRequestException;
 import com.pavel.shopweb.Exception.NotFoundException;
 import com.pavel.shopweb.Mapper.ProductMapper;
+import com.pavel.shopweb.Repository.CategoryRepository;
 import com.pavel.shopweb.Repository.ImageRepository;
 import com.pavel.shopweb.Repository.ProductRepository;
 import com.pavel.shopweb.Service.ProductService;
@@ -26,9 +28,12 @@ public class ProductServiceImpl implements ProductService {
 
     private final ImageRepository imageRepository;
 
-    public ProductServiceImpl(ProductRepository productRepository, ImageRepository imageRepository) {
+    private final CategoryRepository categoryRepository;
+
+    public ProductServiceImpl(ProductRepository productRepository, ImageRepository imageRepository, CategoryRepository categoryRepository) {
         this.productRepository = productRepository;
         this.imageRepository = imageRepository;
+        this.categoryRepository = categoryRepository;
     }
 
     @Override
@@ -52,6 +57,20 @@ public class ProductServiceImpl implements ProductService {
                     throw new NotFoundException("Not found for product_id");
                 });
         return ProductMapper.INSTANCE.PRODUCT_DTO(product);
+    }
+
+    @Override
+    public List<ProductDto> GetProductByCategoryName(String category_name) {
+        CategoryEntity categoryEntity = categoryRepository
+                .findByName(category_name)
+                .orElseThrow(() -> {
+                    throw new NotFoundException("Not found for category_name");
+                });
+        List<ProductEntity> product = categoryEntity.getProductEntities();
+        return product
+                .stream()
+                .map(ProductMapper.INSTANCE::PRODUCT_DTO)
+                .collect(Collectors.toList());
     }
 
     @Override
