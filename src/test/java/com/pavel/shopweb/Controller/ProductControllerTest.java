@@ -20,7 +20,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -57,6 +56,18 @@ class ProductControllerTest {
         mockMvc
                 .perform(get("/api/v1/product/{product_id}", 1L)
                         .content(new ObjectMapper().writeValueAsBytes(productDto))
+                        .contentType("application/json"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void GetProductByCategory() throws Exception {
+        List<ProductDto> productDtos = new ArrayList<>();
+        BDDMockito.given(productService.GetProductByCategoryName("test")).willReturn(productDtos);
+        mockMvc
+                .perform(get("/api/v1/product/category")
+                        .param("name", "test")
+                        .content(new ObjectMapper().writeValueAsBytes(productDtos))
                         .contentType("application/json"))
                 .andExpect(status().isOk());
     }
