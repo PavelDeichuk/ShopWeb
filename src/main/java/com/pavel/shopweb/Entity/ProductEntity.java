@@ -1,5 +1,6 @@
 package com.pavel.shopweb.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -8,6 +9,7 @@ import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Getter
@@ -35,6 +37,10 @@ public class ProductEntity {
     @OneToOne
     @JoinColumn(name = "image_id")
     private ImageEntity imageEntity;
+
+    @ManyToMany(mappedBy = "productEntities")
+    @JsonIgnore
+    private List<CategoryEntity> categoryEntities;
 
     @CreationTimestamp
     private LocalDateTime createAt;
