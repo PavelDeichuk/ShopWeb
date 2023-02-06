@@ -12,6 +12,7 @@ import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Getter
@@ -74,6 +75,9 @@ public class UsersEntity {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "image_id")
     private ImageEntity imageEntity;
+
+    @OneToMany(mappedBy = "usersEntity", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<ReviewEntity> reviewEntities;
 
     @CreationTimestamp
     private LocalDateTime createAt;
