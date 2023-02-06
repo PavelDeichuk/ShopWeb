@@ -38,6 +38,9 @@ public class ProductEntity {
     @JoinColumn(name = "image_id")
     private ImageEntity imageEntity;
 
+    @OneToMany(mappedBy = "productEntity", fetch = FetchType.LAZY)
+    private List<ReviewEntity> reviewEntities;
+
     @ManyToMany(mappedBy = "productEntities")
     @JsonIgnore
     private List<CategoryEntity> categoryEntities;
