@@ -7,6 +7,8 @@ import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.JdbcType;
 import org.hibernate.type.descriptor.jdbc.BinaryJdbcType;
 
+import java.util.List;
+
 @Entity
 @Getter
 @Setter
@@ -33,4 +35,7 @@ public class ImageEntity {
 
     @OneToOne(mappedBy = "imageEntity", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private ProductEntity productEntity;
+
+    @OneToMany(mappedBy = "imageEntity", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<ReviewEntity> reviewEntities;
 }
