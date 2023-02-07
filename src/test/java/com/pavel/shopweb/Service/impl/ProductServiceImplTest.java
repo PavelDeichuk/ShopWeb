@@ -1,6 +1,7 @@
 package com.pavel.shopweb.Service.impl;
 
 import com.pavel.shopweb.Dto.ProductDto;
+import com.pavel.shopweb.Entity.DiscountEntity;
 import com.pavel.shopweb.Entity.ImageEntity;
 import com.pavel.shopweb.Entity.ProductEntity;
 import com.pavel.shopweb.Repository.ImageRepository;
@@ -45,7 +46,9 @@ class ProductServiceImplTest {
     @Test
     void getAllProduct() {
         List<ProductEntity> productEntityList = new ArrayList<>();
-        productEntityList.add(null);
+        DiscountEntity discountEntity = DiscountEntity.builder().id(1L).price(50L).build();
+        ProductEntity product = ProductEntity.builder().id(1L).discountEntity(discountEntity).price(100L).build();
+        productEntityList.add(product);
         PageImpl<ProductEntity> pageImpl = new PageImpl<>(productEntityList);
         when(productRepository.findAll((Pageable) any())).thenReturn(pageImpl);
         assertEquals(1, productService.GetAllProduct(1, 3).size());
@@ -55,6 +58,9 @@ class ProductServiceImplTest {
     @Test
     void getProductById() {
         ProductEntity product = new ProductEntity();
+        DiscountEntity discountEntity = DiscountEntity.builder().id(1L).price(50L).build();
+        product.setDiscountEntity(discountEntity);
+        product.setPrice(1000L);
         when(productRepository.findById(1L)).thenReturn(Optional.of(product));
         ProductDto productDto = productService.GetProductById(1L);
         assertEquals(productDto.getId(), product.getId());
