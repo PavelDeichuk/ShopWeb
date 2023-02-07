@@ -8,6 +8,7 @@ import com.pavel.shopweb.Exception.BadRequestException;
 import com.pavel.shopweb.Exception.NotFoundException;
 import com.pavel.shopweb.Mapper.ProductMapper;
 import com.pavel.shopweb.Repository.CategoryRepository;
+import com.pavel.shopweb.Repository.DiscountRepository;
 import com.pavel.shopweb.Repository.ImageRepository;
 import com.pavel.shopweb.Repository.ProductRepository;
 import com.pavel.shopweb.Service.ProductService;
@@ -30,10 +31,13 @@ public class ProductServiceImpl implements ProductService {
 
     private final CategoryRepository categoryRepository;
 
-    public ProductServiceImpl(ProductRepository productRepository, ImageRepository imageRepository, CategoryRepository categoryRepository) {
+    private final DiscountRepository discountRepository;
+
+    public ProductServiceImpl(ProductRepository productRepository, ImageRepository imageRepository, CategoryRepository categoryRepository, DiscountRepository discountRepository) {
         this.productRepository = productRepository;
         this.imageRepository = imageRepository;
         this.categoryRepository = categoryRepository;
+        this.discountRepository = discountRepository;
     }
 
     @Override
@@ -45,6 +49,12 @@ public class ProductServiceImpl implements ProductService {
         }
         return productEntities
                 .stream()
+                .map(productEntity -> {
+                    if(productEntity.getDiscountEntity() != null){
+                       productEntity.setTotalPrice(productEntity.getPrice() - productEntity.getDiscountEntity().getPrice());
+                    }
+                    return productEntity;
+                })
                 .map(ProductMapper.INSTANCE::PRODUCT_DTO)
                 .collect(Collectors.toList());
     }
@@ -56,6 +66,7 @@ public class ProductServiceImpl implements ProductService {
                 .orElseThrow(() -> {
                     throw new NotFoundException("Not found for product_id");
                 });
+        product.setTotalPrice(product.getPrice() - product.getDiscountEntity().getPrice());
         return ProductMapper.INSTANCE.PRODUCT_DTO(product);
     }
 
@@ -69,6 +80,12 @@ public class ProductServiceImpl implements ProductService {
         List<ProductEntity> product = categoryEntity.getProductEntities();
         return product
                 .stream()
+                .map(productEntity -> {
+                    if(productEntity.getDiscountEntity() != null){
+                        productEntity.setTotalPrice(productEntity.getPrice() - productEntity.getDiscountEntity().getPrice());
+                    }
+                    return productEntity;
+                })
                 .map(ProductMapper.INSTANCE::PRODUCT_DTO)
                 .collect(Collectors.toList());
     }
@@ -83,7 +100,6 @@ public class ProductServiceImpl implements ProductService {
         ProductEntity product = productRepository.save(productEntity);
         return ProductMapper.INSTANCE.PRODUCT_DTO(product);
     }
-
     @Override
     public ProductDto CreateImageProduct(Long product_id, MultipartFile multipartFile) throws IOException {
         ProductEntity product = productRepository
