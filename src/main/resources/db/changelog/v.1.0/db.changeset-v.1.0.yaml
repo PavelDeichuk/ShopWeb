@@ -41,3 +41,9 @@ databaseChangeLog:
       changes:
         - sqlFile:
             path: "db/changelog/v.1.0/1.0-review-table.sql"
+  - changeSet:
+      id: 7
+      author: pavel
+      changes:
+        - sqlFile:
+            path: "db/changelog/v.1.0/1.0-discount-table.sql"
