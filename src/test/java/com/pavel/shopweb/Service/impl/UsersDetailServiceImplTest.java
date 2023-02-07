@@ -29,11 +29,12 @@ class UsersDetailServiceImplTest {
     @Mock
     private UsersDetailRepository usersDetailRepository;
 
+    @Mock
+    private BindingResult bindingResult;
+
     @InjectMocks
     private UsersDetailServiceImpl usersDetailServiceimpl;
 
-    @MockBean
-    private BindingResult bindingResult;
 
     @Test
     public void getUserDetailById() {
