@@ -41,6 +41,10 @@ public class ProductEntity {
     @OneToMany(mappedBy = "productEntity", fetch = FetchType.LAZY)
     private List<ReviewEntity> reviewEntities;
 
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "discount_id")
+    private DiscountEntity discountEntity;
+
     @ManyToMany(mappedBy = "productEntities")
     @JsonIgnore
     private List<CategoryEntity> categoryEntities;
