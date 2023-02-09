@@ -47,3 +47,9 @@ databaseChangeLog:
       changes:
         - sqlFile:
             path: "db/changelog/v.1.0/1.0-discount-table.sql"
+  - changeSet:
+      id: 8
+      author: pavel
+      changes:
+        - sqlFile:
+            path: "db/changelog/v.1.0/1.0-credit-table.sql"
