@@ -53,3 +53,15 @@ databaseChangeLog:
       changes:
         - sqlFile:
             path: "db/changelog/v.1.0/1.0-credit-table.sql"
+  - changeSet:
+      id: 9
+      author: pavel
+      changes:
+        - sqlFile:
+            path: "db/changelog/v.1.0/1.0-orders-table.sql"
+  - changeSet:
+      id: 10
+      author: pavel
+      changes:
+        - sqlFile:
+            path: "db/changelog/v.1.0/1.0-order-detail-table.sql"
