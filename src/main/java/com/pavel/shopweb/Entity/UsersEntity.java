@@ -80,6 +80,9 @@ public class UsersEntity {
     @OneToMany(mappedBy = "usersEntity", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<ReviewEntity> reviewEntities;
 
+    @OneToMany(mappedBy = "usersEntity", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<OrderEntity> orderEntities;
+
     @OneToMany(mappedBy = "usersEntity", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
     private List<CreditCardEntity> creditCardEntities;
