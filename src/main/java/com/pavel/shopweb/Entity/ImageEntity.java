@@ -38,4 +38,7 @@ public class ImageEntity {
 
     @OneToMany(mappedBy = "imageEntity", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<ReviewEntity> reviewEntities;
+
+    @OneToMany(mappedBy = "imageEntity", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<QuestionEntity> questionEntities;
 }
