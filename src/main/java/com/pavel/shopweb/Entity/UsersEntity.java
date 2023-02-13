@@ -84,11 +84,18 @@ public class UsersEntity {
     private List<ReviewEntity> reviewEntities;
 
     @OneToMany(mappedBy = "usersEntity", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<QuestionEntity> questionEntities;
+
+    @OneToMany(mappedBy = "usersEntity", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<OrderEntity> orderEntities;
 
     @OneToMany(mappedBy = "usersEntity", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
     private List<CreditCardEntity> creditCardEntities;
+
+    @ManyToMany(mappedBy = "usersEntities")
+    @JsonIgnore
+    private List<QuestionEntity> questionEntityList;
 
     @CreationTimestamp
     private LocalDateTime createAt;
