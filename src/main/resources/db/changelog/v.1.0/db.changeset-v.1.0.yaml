@@ -65,3 +65,9 @@ databaseChangeLog:
       changes:
         - sqlFile:
             path: "db/changelog/v.1.0/1.0-order-detail-table.sql"
+  - changeSet:
+      id: 11
+      author: pavel
+      changes:
+        - sqlFile:
+            path: "db/changelog/v.1.0/1.0-bucket-table.sql"
