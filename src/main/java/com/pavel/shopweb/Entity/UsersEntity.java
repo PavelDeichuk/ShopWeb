@@ -77,6 +77,9 @@ public class UsersEntity {
     @JoinColumn(name = "image_id")
     private ImageEntity imageEntity;
 
+    @OneToOne(mappedBy = "usersEntity", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private BucketEntity bucketEntity;
+
     @OneToMany(mappedBy = "usersEntity", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<ReviewEntity> reviewEntities;
 
