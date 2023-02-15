@@ -93,6 +93,9 @@ public class UsersEntity {
     @JsonIgnore
     private List<CreditCardEntity> creditCardEntities;
 
+    @OneToMany(mappedBy = "usersEntity", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<ActivateEntity> activateEntities;
     @ManyToMany(mappedBy = "usersEntities")
     @JsonIgnore
     private List<QuestionEntity> questionEntityList;
