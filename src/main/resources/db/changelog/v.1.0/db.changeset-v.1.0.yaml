@@ -83,3 +83,15 @@ databaseChangeLog:
       changes:
         - sqlFile:
             path: "db/changelog/v.1.0/1.0-user-question-table.sql"
+  - changeSet:
+      id: 14
+      author: pavel
+      changes:
+        - sqlFile:
+            path: "db/changelog/v.1.0/1.0-promo-table.sql"
+  - changeSet:
+      id: 15
+      author: pavel
+      changes:
+        - sqlFile:
+            path: "db/changelog/v.1.0/1.0-activate-table.sql"
