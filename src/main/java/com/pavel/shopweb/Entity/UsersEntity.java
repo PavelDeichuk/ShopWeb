@@ -70,7 +70,7 @@ public class UsersEntity {
 
     private Long balance;
 
-    @OneToOne(mappedBy = "usersEntity", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "usersEntity", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private UsersDetailEntity usersDetailEntity;
 
     @OneToOne(cascade = CascadeType.ALL)
@@ -79,6 +79,9 @@ public class UsersEntity {
 
     @OneToOne(mappedBy = "usersEntity", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private BucketEntity bucketEntity;
+
+    @OneToOne(mappedBy = "usersEntity", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private WishEntity wishEntity;
 
     @OneToMany(mappedBy = "usersEntity", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<ReviewEntity> reviewEntities;
