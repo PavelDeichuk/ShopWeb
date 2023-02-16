@@ -7,7 +7,7 @@ import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
 @Getter
@@ -32,7 +32,7 @@ public class UsersDetailEntity {
     @PositiveOrZero(message = "The age field cannot be negative")
     private int age;
 
-    private LocalDateTime birthday;
+    private LocalDate birthday;
 
     @Size(min = 12, max = 574, message = "Description min 12, max 574")
     private String description;
