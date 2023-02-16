@@ -95,3 +95,9 @@ databaseChangeLog:
       changes:
         - sqlFile:
             path: "db/changelog/v.1.0/1.0-activate-table.sql"
+  - changeSet:
+      id: 16
+      author: pavel
+      changes:
+        - sqlFile:
+            path: "db/changelog/v.1.0/1.0-wish-table.sql"
