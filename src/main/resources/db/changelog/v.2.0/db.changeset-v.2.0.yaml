@@ -1,0 +1,13 @@
+databaseChangeLog:
+  - changeSet:
+      id: 0
+      author: admin
+      changes:
+        - sqlFile:
+            path: "db/changelog/v.2.0/2.0-users-table.sql"
+  - changeSet:
+      id: 1
+      author: pavel
+      changes:
+        - sqlFile:
+            path: "db/changelog/v.2.0/2.0-product-table.sql"

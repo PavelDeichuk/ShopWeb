@@ -1,0 +1,103 @@
+databaseChangeLog:
+  - changeSet:
+      id: 0
+      author: admin
+      changes:
+        - sqlFile:
+            path: "db/changelog/v.1.0/1.0-users-table.sql"
+  - changeSet:
+      id: 1
+      author: pavel
+      changes:
+        - sqlFile:
+            path: "db/changelog/v.1.0/1.0-users-detail-table.sql"
+  - changeSet:
+      id: 2
+      author: pavel
+      changes:
+        - sqlFile:
+            path: "db/changelog/v.1.0/1.0-image-table.sql"
+  - changeSet:
+      id: 3
+      author: pavel
+      changes:
+        - sqlFile:
+            path: "db/changelog/v.1.0/1.0-product-table.sql"
+  - changeSet:
+      id: 4
+      author: pavel
+      changes:
+        - sqlFile:
+            path: "db/changelog/v.1.0/1.0-category-table.sql"
+  - changeSet:
+      id: 5
+      author: pavel
+      changes:
+        - sqlFile:
+            path: "db/changelog/v.1.0/1.0-product-category-table.sql"
+  - changeSet:
+      id: 6
+      author: pavel
+      changes:
+        - sqlFile:
+            path: "db/changelog/v.1.0/1.0-review-table.sql"
+  - changeSet:
+      id: 7
+      author: pavel
+      changes:
+        - sqlFile:
+            path: "db/changelog/v.1.0/1.0-discount-table.sql"
+  - changeSet:
+      id: 8
+      author: pavel
+      changes:
+        - sqlFile:
+            path: "db/changelog/v.1.0/1.0-credit-table.sql"
+  - changeSet:
+      id: 9
+      author: pavel
+      changes:
+        - sqlFile:
+            path: "db/changelog/v.1.0/1.0-orders-table.sql"
+  - changeSet:
+      id: 10
+      author: pavel
+      changes:
+        - sqlFile:
+            path: "db/changelog/v.1.0/1.0-order-detail-table.sql"
+  - changeSet:
+      id: 11
+      author: pavel
+      changes:
+        - sqlFile:
+            path: "db/changelog/v.1.0/1.0-bucket-table.sql"
+  - changeSet:
+      id: 12
+      author: pavel
+      changes:
+        - sqlFile:
+            path: "db/changelog/v.1.0/1.0-question-table.sql"
+  - changeSet:
+      id: 13
+      author: pavel
+      changes:
+        - sqlFile:
+            path: "db/changelog/v.1.0/1.0-user-question-table.sql"
+  - changeSet:
+      id: 14
+      author: pavel
+      changes:
+        - sqlFile:
+            path: "db/changelog/v.1.0/1.0-promo-table.sql"
+  - changeSet:
+      id: 15
+      author: pavel
+      changes:
+        - sqlFile:
+            path: "db/changelog/v.1.0/1.0-activate-table.sql"
+  - changeSet:
+      id: 16
+      author: pavel
+      changes:
+        - sqlFile:
+            path: "db/changelog/v.1.0/1.0-wish-table.sql"

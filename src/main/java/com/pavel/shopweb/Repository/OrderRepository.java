@@ -1,0 +1,8 @@
+package com.pavel.shopweb.Repository;
+
+import com.pavel.shopweb.Entity.OrderEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface OrderRepository extends JpaRepository<OrderEntity,Long> {
+
+}

@@ -1,0 +1,1 @@
+ALTER TABLE product ADD COLUMN discount_id INT REFERENCES discount(id);
